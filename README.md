@@ -76,4 +76,4 @@ Windows 10/11 x64, Linux x64 (включая Manjaro), macOS — опциона�
 
 ## Лицензия
 
-Не выбрана. См. `statnote/docs/LICENSE_POLICY.md` и открытый вопрос OQ-02.
+MIT License — см. `LICENSE`.
