@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "PythonStart00"
 		}
 	],
 	"settings": {}
