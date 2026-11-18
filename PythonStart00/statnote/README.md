@@ -36,4 +36,4 @@ Windows 10/11 x64, Linux x64 (включая Manjaro), macOS — опциона�
 
 ## Лицензия
 
-MIT License — см. `docs/LICENSE_POLICY.md` и `../../LICENSE`.
+MIT License — см. `docs/LICENSE_POLICY.md`.
