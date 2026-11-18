@@ -1,0 +1,41 @@
+# Python (uv-проекты)
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# .NET / C# (проект StatNote и другие)
+bin/
+obj/
+artifacts/
+*.user
+*.suo
+.vs/
+publish/
+
+# StatNote
+.statnote_cache/
+.statnote/
+*.smd.autosave
+
+# Резервные копии генераторов документации
+*.bak
+
+# Редакторы
+.vscode/
+.idea/
+
+# ОС
+Thumbs.db
+.DS_Store
+
+# НЕ игнорировать lock-файлы и версии: нужны для воспроизводимости
+# (uv.lock, .python-version, statnote.lock, vendor/)
