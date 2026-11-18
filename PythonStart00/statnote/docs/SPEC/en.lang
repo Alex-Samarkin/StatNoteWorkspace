@@ -1,0 +1,68 @@
+# StatNote — English dictionary. DRAFT 0.1
+# Canonical names map to themselves; messages define the reference wording.
+
+keywords:
+  class: class
+  function: function
+  return: return
+  if: if
+  else: else
+  for: for
+  in: in
+  while: while
+  local: local
+  global: global
+  using: using
+  from: from
+  new: new
+  public: public
+  private: private
+  get: get
+  set: set
+  and: and
+  or: or
+  not: not
+  try: try
+  catch: catch
+  throw: throw
+  this: this
+
+types:
+  int: int
+  double: double
+  string: string
+  bool: bool
+  list: list
+  dict: dict
+  matrix: matrix
+  dataframe: dataframe
+  factor: factor
+  void: void
+
+literals:
+  true: true
+  false: false
+  null: null
+
+attributes:
+  Preamble: Preamble
+  Footer: Footer
+  Eval: Eval
+  Echo: Echo
+  Export: Export
+  Visibility: Visibility
+  FigCap: FigCap
+  DisplayMode: DisplayMode
+
+messages:
+  SN0201: "local variable '{name}' shadows a global variable"
+  SN0202: "name '{name}' is not resolved in the current scope"
+  SN0203: "cyclic dependency detected between cells {cells}"
+  SN0401: "member '{name}' is not declared in class '{type}'"
+  SN0402: "field '{name}' is declared in the class; use dot instead of dollar"
+  SN0501: "incompatible dimensions: {left} and {right}"
+  SN0601: "checksum mismatch for package '{package}'"
+
+hints:
+  SN0201: "rename the local variable or use global::{name}"
+  SN0402: "replace {obj}${name} with {obj}.{name}"

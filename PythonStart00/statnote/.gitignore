@@ -1,0 +1,30 @@
+# .NET
+bin/
+obj/
+artifacts/
+*.user
+*.suo
+.vs/
+.vscode/
+.idea/
+
+# StatNote
+.statnote_cache/
+.statnote/
+*.smd.autosave
+publish/
+
+# Python (вспомогательные скрипты)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Резервные копии генераторов документации
+*.bak
+
+# ОС
+Thumbs.db
+.DS_Store
+
+# НЕ игнорировать: statnote.lock и vendor/ нужны для воспроизводимости

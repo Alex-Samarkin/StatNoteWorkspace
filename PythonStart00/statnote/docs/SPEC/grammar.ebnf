@@ -1,0 +1,99 @@
+(* ============================================================
+   StatNote — черновая грамматика, DRAFT 0.1
+   Статус: заготовка для модуля M2. Не финальная.
+   Нотация EBNF: '|' альтернатива, ',' конкатенация, ';' конец правила,
+   [ x ] необязательно, { x } повторение, ( x ) группировка.
+   ============================================================ *)
+
+document       = { directive } , [ preamble ] , { cell } , [ footer ] ;
+
+directive      = "@" , identifier , [ directive_body ] , [ ";" ] ;
+directive_body = "{" , { directive_entry } , "}" | identifier | string ;
+directive_entry= string , "=" , string , [ ";" ] ;
+
+preamble       = "[" , ( "Preamble" | "Преамбула" ) , "]" , block ;
+footer         = "[" , ( "Footer" | "Подвал" ) , "]" , block ;
+
+cell           = compute_cell | markdown_cell ;
+compute_cell   = { attribute } , block ;
+markdown_cell  = md_line , { md_line } ;
+(* Разметка Markdown обрабатывается отдельным проходом, не этой грамматикой. *)
+
+attribute      = "[" , identifier , [ "(" , [ arg_list ] , ")" ] , "]" ;
+block          = "{" , { statement } , "}" ;
+
+statement      = class_decl | function_decl | using_stmt | global_stmt
+               | assignment | return_stmt | if_stmt | for_stmt | while_stmt
+               | expr_stmt | block ;
+
+using_stmt     = ( "using" | "использовать" ) , qualified_name ,
+                 [ "from" , source ] , [ ";" ] ;
+source         = "r" | "python" | "julia" | "dll" | "csharp" | "lua"
+               | "package" , "(" , string , ")" ;
+
+global_stmt    = ( "global" | "глобальная" ) , identifier , "<-" , expression , [ ";" ] ;
+assignment     = target , assign_op , expression , [ ";" ] ;
+assign_op      = "<-" | "->" | "<<-" | "->>" ;
+target         = qualified_name | member_access | index_access ;
+member_access  = postfix ;
+index_access   = postfix , "[" , expression , "]" ;
+
+class_decl     = { attribute } , ( "class" | "класс" ) , identifier ,
+                 [ ":" , identifier ] , "{" , { class_member } , "}" ;
+class_member   = { attribute } , [ visibility ] ,
+                 ( field_decl | property_decl | function_decl ) ;
+visibility     = "public" | "private" | "открытый" | "закрытый" ;
+field_decl     = [ type_ref ] , identifier , [ ";" ] ;
+property_decl  = [ type_ref ] , identifier , "{" , getter , [ setter ] , "}" ;
+getter         = ( "get" | "получить" ) , ( block | "=>" , expression , [ ";" ] ) ;
+setter         = ( "set" | "установить" ) , ( block | "=>" , expression , [ ";" ] ) ;
+
+function_decl  = ( "function" | "функция" ) , identifier , "(" , [ param_list ] , ")" ,
+                 ( block | "=>" , expression , [ ";" ] ) ;
+param_list     = param , { "," , param } ;
+param          = [ type_ref ] , identifier , [ "=" , expression ] ;
+
+if_stmt        = ( "if" | "если" ) , "(" , expression , ")" , block ,
+                 { ( "else" | "иначе" ) , ( if_stmt | block ) } ;
+for_stmt       = ( "for" | "для" ) , identifier , ( "in" | "в" ) , expression , block ;
+while_stmt     = ( "while" | "пока" ) , "(" , expression , ")" , block ;
+return_stmt    = ( "return" | "вернуть" ) , [ expression ] , [ ";" ] ;
+expr_stmt      = expression , [ ";" ] ;
+
+expression     = formula | pipe_expr ;
+formula        = pipe_expr , "~" , pipe_expr ;
+pipe_expr      = broadcast_expr , { "|>" , broadcast_expr } ;
+broadcast_expr = logic_or , { dot_op , logic_or } ;
+dot_op         = "." , ( "+" | "-" | "*" | "/" | "^"
+                       | "==" | "!=" | "<" | ">" | "<=" | ">=" ) ;
+logic_or       = logic_and , { ( "or" | "или" ) , logic_and } ;
+logic_and      = comparison , { ( "and" | "и" ) , comparison } ;
+comparison     = additive , { ( "==" | "!=" | "<" | ">" | "<=" | ">=" ) , additive } ;
+additive       = multiplicative , { ( "+" | "-" ) , multiplicative } ;
+multiplicative = unary , { ( "*" | "/" | "%" ) , unary } ;
+unary          = [ ( "-" | "not" | "не" ) ] , postfix ;
+postfix        = primary , { postfix_op } ;
+
+postfix_op     = "." , identifier
+               | "$" , identifier
+               | "?." , identifier
+               | "." , "(" , [ arg_list ] , ")"
+               | "(" , [ arg_list ] , ")"
+               | "[" , expression , "]" ;
+(* Неоднозначность: '.' identifier — доступ к члену;
+   '.' '(' args ')' — broadcast вызова. Разрешается lookahead в M2. *)
+
+primary        = literal | qualified_name | lambda | new_expr
+               | "(" , expression , ")" | list_literal ;
+new_expr       = ( "new" | "создать" ) , identifier , "(" , [ arg_list ] , ")" ;
+lambda         = "(" , [ param_list ] , ")" , "=>" , expression ;
+arg_list       = argument , { "," , argument } ;
+argument       = [ identifier , ":" ] , expression ;
+qualified_name = identifier , { "::" , identifier } ;
+list_literal   = "[" , [ expression , { "," , expression } ] , "]" ;
+literal        = number | string | "true" | "false" | "истина" | "ложь"
+               | "null" | "ничто" | "NA" ;
+type_ref       = identifier , [ "<" , type_ref , { "," , type_ref } , ">" ] ;
+
+(* Лексика: identifier, number, string, md_line определяются в Lexer.g4.
+   Идентификаторы допускают Unicode. Ключевые слова подменяются словарём .lang. *)
