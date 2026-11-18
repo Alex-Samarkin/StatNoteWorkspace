@@ -1,0 +1,14 @@
+.
+└── PythonStart00
+    ├── __pycache__
+    ├── src
+    │   └── pythonstart00
+    ├── statnote
+    │   ├── docs
+    │   │   ├── adr
+    │   │   ├── context_bundles
+    │   │   └── SPEC
+    │   └── examples
+    └── statnote_docs
+
+12 directories

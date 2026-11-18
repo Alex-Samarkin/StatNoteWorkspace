@@ -9,14 +9,19 @@
 ```
 StatNoteWorkspace/
 ├── .gitignore
+├── LICENSE
+├── README.md
 ├── StatNoteWorkspace.code-workspace   # настройки VS Code для workspace
-└── PythonStart00/                     # Python-проект (uv) + документация StatNote
+├── statnote/                          # проект StatNote (C#/.NET) — документация
+│   ├── docs/                          # контекст, ADR, спецификации, регламенты
+│   ├── examples/                      # примеры документов .smd
+│   └── README.md
+└── PythonStart00/                     # Python-проект (uv) с генераторами docs
     ├── pyproject.toml                 # пакет pythonstart00 (Python >= 3.14, uv)
     ├── uv.lock
     ├── src/pythonstart00/             # исходники пакета
-    ├── CreateDockWithPython.py        # генератор docs: statnote_docs/
-    ├── CreateSecondOrderDoc.py        # генератор обвязки проекта: statnote/
-    ├── statnote/                      # проект StatNote (C#/.NET) — документация
+    ├── CreateDockWithPython.py        # генератор: statnote_docs/
+    ├── CreateSecondOrderDoc.py        # генератор: statnote/
     └── statnote_docs/                 # концепция, ТЗ, ИИ-промпт, программа разработки
 ```
 
@@ -30,7 +35,7 @@ StatNoteWorkspace/
 - `CreateDockWithPython.py` — генерирует `statnote_docs/` (концепция, ТЗ, мастер-промпт,
   программа разработки).
 - `CreateSecondOrderDoc.py` — генерирует проектную обвязку `statnote/` (README, контекстные
-  артефакты, черновые спецификации, примеры `.smd`).
+  артефакты, черновые спецификации, примеры `.smd`); запускать из корня workspace.
 
 Установка и запуск:
 
@@ -43,7 +48,7 @@ uv run pythonstart00
 ### StatNote
 
 Язык статистических вычислений и среда научного литерного программирования. Рабочее
-название (см. `docs/OPEN_QUESTIONS.md`).
+название (см. `statnote/docs/OPEN_QUESTIONS.md`).
 
 Документ `.smd` объединяет текст, формулы, расчёты и графики; один источник порождает
 PDF, HTML и PPTX. Ключевые решения:
@@ -61,10 +66,10 @@ PDF, HTML и PPTX. Ключевые решения:
 
 | Документ | Назначение |
 |---|---|
-| `statnote_docs/01_concept.md` | Концепция (человеческое чтение) |
-| `statnote_docs/02_specification.md` | Техническое задание |
-| `statnote_docs/03_ai_prompt.md` | Мастер-промпт для ИИ-разработки |
-| `statnote_docs/04_development_program.md` | Программа разработки и сохранение контекста |
+| `PythonStart00/statnote_docs/01_concept.md` | Концепция (человеческое чтение) |
+| `PythonStart00/statnote_docs/02_specification.md` | Техническое задание |
+| `PythonStart00/statnote_docs/03_ai_prompt.md` | Мастер-промпт для ИИ-разработки |
+| `PythonStart00/statnote_docs/04_development_program.md` | Программа разработки и сохранение контекста |
 | `statnote/docs/PROJECT_CONTEXT.md` | Текущее состояние проекта |
 | `statnote/docs/DECISIONS.md` | Журнал архитектурных решений (ADR) |
 | `statnote/docs/MODULE_STATUS.md` | Матрица модулей M0–M14 |
